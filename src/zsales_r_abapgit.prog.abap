@@ -18,7 +18,8 @@ DATA(go_object) = NEW zsales_cl_abapgit( ).
 IF s_vbeln IS NOT INITIAL.
 
 * Method FETCH_DATA to get the data deom the table
-  go_object->fetch_data( it_vbeln = s_vbeln[] ).
+  go_object->fetch_data( it_vbeln = s_vbeln[]
+                         it_erdat = s_erdat[] ).      "Review changes V1 - 01.07.2020
 
 * Method DISPLAY_ALV to display the output in ALV
   go_object->display_alv( ).

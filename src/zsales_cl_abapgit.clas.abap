@@ -22,7 +22,8 @@ public section.
 
   methods FETCH_DATA
     importing
-      value(IT_VBELN) type /ACCGO/CAS_TT_VBELN_VA_RANGE .
+      value(IT_VBELN) type /ACCGO/CAS_TT_VBELN_VA_RANGE
+      value(IT_ERDAT) type FIP_T_ERDAT_RANGE .
   methods DISPLAY_ALV .
 protected section.
 private section.
@@ -75,6 +76,7 @@ CLASS ZSALES_CL_ABAPGIT IMPLEMENTATION.
         FROM vbap                 ##DB_FEATURE_MODE[TABLE_LEN_MAX1]
         INTO TABLE @gt_vbap
         WHERE vbeln IN @it_vbeln
+          AND erdat IN @it_erdat  "Review changes V1 - 01.07.2020
         ORDER BY vbeln,
                  posnr.
       IF sy-subrc <> 0 .
