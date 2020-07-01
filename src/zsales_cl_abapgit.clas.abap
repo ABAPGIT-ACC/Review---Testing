@@ -12,7 +12,8 @@ public section.
         matnr TYPE vbap-matnr,
         charg TYPE vbap-charg,
         werks TYPE vbap-werks,
-        meins TYPE vbap-meins,          "New Change - 30.06.2020 - Version 1
+        meins TYPE vbap-meins,
+        zmeng TYPE vbap-zmeng,          "New Change - 01.07.2020 - V1
       END OF gty_vbap .
   types:
     gtt_t_vbap TYPE STANDARD TABLE OF gty_vbap .
@@ -21,7 +22,8 @@ public section.
 
   methods FETCH_DATA
     importing
-      value(IT_VBELN) type /ACCGO/CAS_TT_VBELN_VA_RANGE .
+      value(IT_VBELN) type /ACCGO/CAS_TT_VBELN_VA_RANGE
+      value(IT_ERDAT) type FIP_T_ERDAT_RANGE .
   methods DISPLAY_ALV .
 protected section.
 private section.
@@ -63,15 +65,18 @@ CLASS ZSALES_CL_ABAPGIT IMPLEMENTATION.
 
   METHOD fetch_data.
     IF it_vbeln IS NOT INITIAL.
+*     Fetching the sales order item information
       SELECT vbeln,
              posnr,
              matnr,
              charg,
              werks,
-             meins                "New Change - 30.06.2020 - Version 1
+             meins,
+             zmeng                "New Change - 01.07.2020 - V1
         FROM vbap                 ##DB_FEATURE_MODE[TABLE_LEN_MAX1]
         INTO TABLE @gt_vbap
         WHERE vbeln IN @it_vbeln
+          AND erdat IN @it_erdat  "Review changes V1 - 01.07.2020
         ORDER BY vbeln,
                  posnr.
       IF sy-subrc <> 0 .
